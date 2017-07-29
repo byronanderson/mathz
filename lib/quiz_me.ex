@@ -12,11 +12,12 @@ defmodule QuizMe do
 
   def generate(seed \\ :os.timestamp) do
     seed = :rand.seed(:exsplus, seed)
-    {question, _seed} = generate_question(seed)
+    {equation, seed} = generate_equation(seed)
+    {question, _seed} = generate_question(equation, seed)
     question
   end
 
-  defp generate_question(seed) do
+  defp generate_equation(seed) do
     {op, seed} = random_operation(seed)
     case op do
       :x -> generate_multiplication_question(seed)
@@ -26,8 +27,35 @@ defmodule QuizMe do
     end
   end
 
-  def numbers_involved({_op, n1, n2, n3}) do
-    [n1, n2, n3]
+  defp generate_question({op, n1, n2, n3}, seed) do
+    {missing, seed} = random_nonnegative_integer(2, seed)
+
+    {positions, answer} = case missing do
+      0 -> {[:_, n2, n3], n1}
+      1 -> {[n1, :_, n3], n2}
+      2 -> {[n1, n2, :_], n3}
+    end
+
+    {{op, positions, answer}, seed}
+  end
+
+  def equation({op, positions, answer}) do
+    [n1, n2, n3] = Enum.map(positions, fn position ->
+      if position == :_ do
+        answer
+      else
+        position
+      end
+    end)
+    {op, n1, n2, n3}
+  end
+
+  def numbers_involved({_op, positions, answer}) do
+    [answer | Enum.filter(positions, fn position -> is_integer(position) end)]
+  end
+
+  def positions({_op, positions, _answer}) do
+    positions
   end
 
   defp generate_multiplication_question(seed) do
