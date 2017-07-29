@@ -14,7 +14,7 @@ defmodule QuizMe do
 
   """
 
-  @operations [:x, :+]
+  @operations [:x, :+, :-]
 
   def generate(seed \\ :os.timestamp) do
     seed = :rand.seed(:exsplus, seed)
@@ -22,6 +22,7 @@ defmodule QuizMe do
     case op do
       :x -> generate_multiplication_question(seed)
       :+ -> generate_addition_question(seed)
+      :- -> generate_subtraction_question(seed)
     end
   end
 
@@ -49,6 +50,14 @@ defmodule QuizMe do
     else
       generate_addition_question(seed)
     end
+  end
+
+  defp generate_subtraction_question(seed) do
+    {n1, seed} = random_nonnegative_integer(99, seed)
+    {n2, _seed} = random_nonnegative_integer(99, seed)
+    {min, max} = Enum.min_max([n1, n2])
+    result = max - min
+    {:-, max, min, result}
   end
 
   defp random_operation(seed) do
