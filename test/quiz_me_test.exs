@@ -8,6 +8,7 @@ defmodule QuizMeTest do
   test "is seeded random" do 
     seed = :os.timestamp()
     assert QuizMe.generate(seed) == QuizMe.generate(seed)
+    assert QuizMe.generate(seed) != QuizMe.generate({1, 2, 3})
   end
 
   defp accurate?(quiz) do
