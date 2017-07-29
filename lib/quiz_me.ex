@@ -14,13 +14,14 @@ defmodule QuizMe do
 
   """
 
-  @operations [:x]
+  @operations [:x, :+]
 
   def generate(seed \\ :os.timestamp) do
     seed = :rand.seed(:exsplus, seed)
     {op, seed} = random_operation(seed)
     case op do
       :x -> generate_multiplication_question(seed)
+      :+ -> generate_addition_question(seed)
     end
   end
 
@@ -33,9 +34,20 @@ defmodule QuizMe do
     {n2, seed} = random_nonnegative_integer(99, seed)
     result = n1 * n2
     if result <= 99 do
-      {:x, n1, n2, n1 * n2}
+      {:x, n1, n2, result}
     else
       generate_multiplication_question(seed)
+    end
+  end
+
+  defp generate_addition_question(seed) do
+    {n1, seed} = random_nonnegative_integer(99, seed)
+    {n2, seed} = random_nonnegative_integer(99, seed)
+    result = n1 + n2
+    if result <= 99 do
+      {:+, n1, n2, result}
+    else
+      generate_addition_question(seed)
     end
   end
 
