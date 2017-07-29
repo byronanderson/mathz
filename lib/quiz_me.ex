@@ -59,8 +59,8 @@ defmodule QuizMe do
   end
 
   defp generate_multiplication_question(seed) do
-    {n1, seed} = random_nonnegative_integer(40, seed)
-    {n2, seed} = random_nonnegative_integer(40, seed)
+    {n1, seed} = random_positive_integer(40, seed)
+    {n2, seed} = random_positive_integer(40, seed)
     result = n1 * n2
     if result <= 99 do
       {{:x, n1, n2, result}, seed}
@@ -106,5 +106,9 @@ defmodule QuizMe do
   defp random_nonnegative_integer(max_val, seed) do
     {val, seed} = :rand.uniform_s(max_val, seed)
     {val - 1, seed}
+  end
+
+  defp random_positive_integer(max_val, seed) do
+    :rand.uniform_s(max_val, seed)
   end
 end

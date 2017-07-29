@@ -14,7 +14,7 @@ defmodule QuizMeTest do
   defp accurate?(quiz) do
     case QuizMe.equation(quiz) do
       {:x, n1, n2, n3} -> n1 * n2 == n3
-      {:/, n1, n2, n3} -> n1 / n2 == n3
+      {:/, n1, n2, n3} -> n2 != 0 && n1 / n2 == n3
       {:+, n1, n2, n3} -> n1 + n2 == n3
       {:-, n1, n2, n3} -> n1 - n2 == n3
     end
@@ -48,6 +48,13 @@ defmodule QuizMeTest do
       QuizMe.generate({random_seed, random_seed, random_seed})
       |> QuizMe.positions()
       |> Enum.count(fn position -> position == :_ end) == 1
+    end
+  end
+
+  property :only_one_answer do
+    for_all random_seed in int() do
+      {op, positions, _} = QuizMe.generate({random_seed, random_seed, random_seed})
+      Enum.count(0..99, fn answer -> accurate?({op, positions, answer}) end) == 1
     end
   end
 end
