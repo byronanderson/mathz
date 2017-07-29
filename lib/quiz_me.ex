@@ -9,8 +9,8 @@ defmodule QuizMe do
 
   ## Examples
 
-      # iex> QuizMe.generate(1)
-      
+      iex> QuizMe.generate({1, 1, 1})
+      {:x, 12, 8, 96}
 
   """
 
