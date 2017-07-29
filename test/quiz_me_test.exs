@@ -18,8 +18,13 @@ defmodule QuizMeTest do
 	end
   end
 
-  # property :all_numbers_less_than_100 do
-  # end
+  property :all_numbers_less_than_100 do
+  	for_all random_seed in int() do
+  	  QuizMe.generate({random_seed, random_seed, random_seed})
+  	  |> QuizMe.numbers_involved()
+  	  |> Enum.all?(fn num -> num < 100 end)
+	end
+  end
 
   # property :all_numbers_positive do
   # end

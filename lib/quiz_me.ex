@@ -32,7 +32,11 @@ defmodule QuizMe do
     {n1, seed} = random_nonnegative_integer(99, seed)
     {n2, seed} = random_nonnegative_integer(99, seed)
     result = n1 * n2
-    {:x, n1, n2, n1 * n2}
+    if result <= 99 do
+      {:x, n1, n2, n1 * n2}
+    else
+      generate_multiplication_question(seed)
+    end
   end
 
   defp random_operation(seed) do
