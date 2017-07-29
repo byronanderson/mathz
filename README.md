@@ -1,21 +1,12 @@
 # QuizMe
 
-**TODO: Add description**
+I recommend docker for running this because you might not have elixir:
 
-## Installation
+To run the text UI, run this from the root of the repo:
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `quiz_me` to your list of dependencies in `mix.exs`:
+`docker run -it --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp elixir mix run quizme.exs`
 
-```elixir
-def deps do
-  [
-    {:quiz_me, "~> 0.1.0"}
-  ]
-end
-```
+To run the tests:
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/quiz_me](https://hexdocs.pm/quiz_me).
+`docker run -it --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp elixir mix test`
 
