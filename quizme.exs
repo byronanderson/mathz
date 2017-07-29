@@ -4,12 +4,12 @@ defmodule Runtime do
 
     IO.puts "#{n1} #{op} #{n2} = #{n3}"
 
-    case get_input() do
-      ^answer ->
-        IO.puts "Yep!"
-        wins = wins + 1
-      _ -> IO.puts "Nope, the answer was #{answer}"
-        losses = losses + 1
+    {wins, losses} = if get_input() == answer do
+      IO.puts "Yep!"
+      {wins + 1, losses}
+    else
+      IO.puts "Nope, the answer was #{answer}"
+      {wins, losses + 1}
     end
     inspect_score({wins, losses})
     loop({wins, losses})
