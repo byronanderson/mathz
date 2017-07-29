@@ -13,7 +13,7 @@ defmodule QuizMeTest do
   defp accurate?(quiz) do
     case quiz do
       {:x, n1, n2, n3} -> n1 * n2 == n3
-      {:%, n1, n2, n3} -> n1 / n2 == n3
+      {:/, n1, n2, n3} -> n1 / n2 == n3
       {:+, n1, n2, n3} -> n1 + n2 == n3
       {:-, n1, n2, n3} -> n1 - n2 == n3
     end
